@@ -1,4 +1,6 @@
 <?php
+    require "config.php";
+
     class ticket{
         public $code;
         public $customer_name;
@@ -12,21 +14,43 @@
         public $create_at;
         public $update_at;
 
-        public function add_ticket($conn){
-            $sql = 'INSERT INTO ticket(code,customer_name,customer_phone,number_of_ticket,branch_id,task_list_id,employee_id,status,flag,create_at,update_at)
-             VALUES ("'.$this->code.'","'.$this->customer_name.'","'.$this->customer_phone.'","'.$this->number_of_ticket.'","'.$this->branch_id.'","'.$this->task_list_id.'","'.$this->status.'","'.$this->flag.'","'.$this->create_at.'","'.$this->update_at.'")';
+        public function add_ticket(){
+            $c = new config;
+            $conn = $c->connect();
+            $sql = 'INSERT INTO ticket(code,customer_name,customer_phone,number_of_ticket,branch_id,task_list_id,employee_id,status,flag,create_at) VALUES (:code,:customer_name,:customer_phone,:number_of_ticket,:branch_id,:task_list_id,:employee_id,:status,:flag,NOW())';
             $tsql = $conn->prepare($sql);
-            $tsql->execute();
+            $tsql->execute(
+                array (
+                    ":code" => $this->code,
+                    ":customer_name" => $this->customer_name,
+                    ":customer_phone" => $this->customer_phone,
+                    ":number_of_ticket" => $this->number_of_ticket,
+                    ":branch_id" => $this->branch_id,
+                    ":task_list_id" => $this->task_list_id,
+                    ":employee_id" => $this->employee_id,
+                    ":status" => $this->status,
+                    ":flag" => $this->flag, 
+                )
+            );
+            $conn = null;
         }
 
-        public function showCode($conn) {
-            $sql = 'SELECT id,code FROM task_list';
+        public function showCode() {
+            $c = new config;
+            $conn = $c->connect();
+            $sql = "SELECT tl.id,tl.code FROM task_list tl INNER JOIN task_status ts ON tl.status=ts.id WHERE ts.name = 'pending'  ";
             $stmt = $conn->prepare($sql);
             $stmt->execute();
             $results = $stmt->fetchAll();
             foreach($results as $row) {
                 echo "<option value='".$row["id"]."'>".$row["code"]."</option>";
             }
+            $conn = null;
+        }
+
+        public function fintTaskId() {
+            
+
         }
 
     }
