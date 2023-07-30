@@ -38,7 +38,7 @@
         public function showCode() {
             $c = new config;
             $conn = $c->connect();
-            $sql = "SELECT tl.id,tl.code FROM task_list tl INNER JOIN task_status ts ON tl.status=ts.id WHERE ts.name = 'pending'  ";
+            $sql = 'SELECT tl.id,tl.code FROM task_list tl INNER JOIN task_status ts ON tl.status=ts.id WHERE ts.name = "pending"  ';
             $stmt = $conn->prepare($sql);
             $stmt->execute();
             $results = $stmt->fetchAll();
@@ -48,9 +48,18 @@
             $conn = null;
         }
 
-        public function fintTaskId() {
-            echo "hello";
-
+        public function setBranchId($task_id) {
+            $c = new config;
+            $conn = $c->connect();
+            $sql = 'select b.id bid from task_list tl inner join router_list rl on tl.router_list_id = rl.id inner join branch b on rl.start_point = b.id where tl.id = :task_list_id ';
+            $tsql = $conn->prepare($sql);
+            $tsql->execute(
+                array (
+                    ":task_list_id" => $task_id
+                )
+            );
+            $conn = null;
+            $this->branch_id  = $tsql->fetchColumn(0);
         }
 
     }

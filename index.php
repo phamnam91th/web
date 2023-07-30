@@ -85,19 +85,20 @@
                     $t->customer_name    = $_POST['customer_name'];
                     $t->customer_phone = $_POST['customer_phone'];
                     $t->number_of_ticket = $_POST['number_of_ticket'];
-                    $t->branch_id = 1;
                     $t->task_list_id = $_POST['router'];
                     $t->employee_id = 1;
                     $t->status = 1;
                     $t->flag = '0';
                     // $t->create_at = "NOW()";
                     // $t->update_at = "";
+                    $t->setBranchId($t->task_list_id);
                     $t->code = $_POST['customer_phone'];
+                    // echo  $t->branch_id;
 
                     print_r($t);
 
                     $t->add_ticket();
-                    echo "write data done";
+                    // echo "write data done";
                 }
 
                 echo '<h3 class="text-center">Order Ticket</h3>
