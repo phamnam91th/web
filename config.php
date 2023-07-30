@@ -19,7 +19,7 @@
             $option = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
             try {
                 $this->conn = new PDO($dsn,$this->user_name,$this->password,$option);
-                // print_r($this->conn);
+                echo "connect success";
             } catch(PDOException $e) {
                 echo $e->getMessage();
             }

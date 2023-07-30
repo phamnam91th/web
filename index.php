@@ -1,3 +1,8 @@
+<?php
+    require "ticket.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -74,83 +79,55 @@
         </div>
 
         <div class="row">
-        <?php 
-            require_once "./config.php";
-            require_once "./ticket.php";
-            $c = new config;
-            $conn = $c->connect();
-            $t = new ticket;
-            if(isset($_POST['save'])){
-                $t->code= $_POST['router'];
-                $t->customer_name    = $_POST['customer_name'];
-                $t->customer_phone = $_POST['customer_phone'];
-                $t->number_of_ticket = $_POST['number_of_ticket'];
-                $t->branch_id = 1;
-                $t->task_list_id = 2;
-                $t->employee_id = 1;
-                $t->status = 3;
-                $t->flag = 0;
-                $t->create_at = "2023-07-24 12:29:07";
-                $t->update_at = "";
+            <?php
+                $t = new ticket;
+                if (isset($_POST['save'])) {
+                    $t->customer_name    = $_POST['customer_name'];
+                    $t->customer_phone = $_POST['customer_phone'];
+                    $t->number_of_ticket = $_POST['number_of_ticket'];
+                    $t->branch_id = 1;
+                    $t->task_list_id = $_POST['router'];
+                    $t->employee_id = 1;
+                    $t->status = 1;
+                    $t->flag = '0';
+                    // $t->create_at = "NOW()";
+                    // $t->update_at = "";
+                    $t->code = $_POST['customer_phone'];
 
-                $t->add_ticket($conn);
-            }
+                    print_r($t);
 
-            echo '<h3 class="text-center">Order Ticket</h3>
-            <form action="" method="POST">
-                <div class="form-group mb-3 mt-6">
-                    <label for="customer_name">Customer name</label>
-                    <input type="text" class="form-control" id="customer_name" name="customer_name">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="phone">Phone</label>
-                    <input type="text" class="form-control" id="phone" name="customer_phone">
-                </div>
-                <div class="form-group mb-3">
-                    <label for="dob" class="text-black-50">Select router</label>
-                    <select class="form-select form-select-md bg-light text-black" name="router">';
-                        $t->showCode($conn);
-                    
-            echo '</select>
-            </div>
-            <div class="form-group mb-3">
-                <label for="ticket">Select number ticket</label>
-                <input type="number" class="form-control" id="ticket" name="number_of_ticket">
-            </div>
+                    $t->add_ticket();
+                }
 
-            <button type="submit" class="btn btn-primary mb-2" name="save" value="save">Order</button>
-            <button class="btn btn-primary mb-2"> <a class="text-light" href="manage.php?select=brand">Cancel</a></button>
-        </form>'     
-                
-        ?>
+                echo '<h3 class="text-center">Order Ticket</h3>
+                <form action="" method="POST">
+                    <div class="form-group mb-3 mt-6">
+                        <label for="customer_name">Customer name</label>
+                        <input type="text" class="form-control" id="customer_name" name="customer_name">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" name="customer_phone">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="dob" class="text-black-50">Select router</label>
+                        <select class="form-select form-select-md bg-light text-black" name="router">';
+                            $t->showCode();
+                echo '</select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="ticket">Select number ticket</label>
+                        <input type="number" class="form-control" id="ticket" name="number_of_ticket">
+                    </div>
 
+                    <button type="submit" class="btn btn-primary mb-2" name="save" value="save">Order</button>
+                    <button class="btn btn-primary mb-2"> <a class="text-light" href="manage.php?select=brand">Cancel</a></button>
+                </form>'
 
-
-
-
-
-
-
-
-
-
+            ?>
         </div>
 
-
-
-
     </div>
-
-
-
-
-
-
-
-
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 
