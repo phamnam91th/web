@@ -10,8 +10,10 @@
         // public $server_name = "localhost";
         // public $user_name = "root";
         // public $password = "";
-        // public $database = "testtt";
+        // public $database = "digishop_project_k2_g1";
         // public $port = "3306";
+
+        
         public $conn;
 
         public function __construct() {

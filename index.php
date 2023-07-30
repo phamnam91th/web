@@ -97,6 +97,7 @@
                     print_r($t);
 
                     $t->add_ticket();
+                    echo "write data done";
                 }
 
                 echo '<h3 class="text-center">Order Ticket</h3>
