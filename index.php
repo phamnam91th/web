@@ -89,17 +89,15 @@
                     $t->employee_id = 1;
                     $t->status = 1;
                     $t->flag = '0';
-                    // $t->create_at = "NOW()";
-                    // $t->update_at = "";
                     $t->setBranchId($t->task_list_id);
-                    $t->code = $_POST['customer_phone'];
-                    // echo  $t->branch_id;
+                    $t->code = $_POST['customer_phone']."-".date("Y/m/d");
+                    if($t->customer_name != null && $t->customer_phone!=null && $t->number_of_ticket!=null && $t->task_list_id!= null) {
+                        $t->add_ticket();
+                    }else {
+                        $t->mes = "Please input all information.";
+                    }
 
-                    print_r($t);
-
-                    $t->add_ticket();
-                    // echo "write data done";
-                }
+                } 
 
                 echo '<h3 class="text-center">Order Ticket</h3>
                 <form action="" method="POST">
@@ -113,7 +111,8 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="dob" class="text-black-50">Select router</label>
-                        <select class="form-select form-select-md bg-light text-black" name="router">';
+                        <select class="form-select form-select-md bg-light text-black" name="router">
+                            <option value="" selected disabled>Select router : </option>';
                             $t->showCode();
                 echo '</select>
                     </div>
@@ -124,7 +123,8 @@
 
                     <button type="submit" class="btn btn-primary mb-2" name="save" value="save">Order</button>
                     <button class="btn btn-primary mb-2"> <a class="text-light" href="manage.php?select=brand">Cancel</a></button>
-                </form>'
+                </form>';
+                echo '<h3 class="text-center">'.$t->mes.'</h3>';
 
             ?>
         </div>
